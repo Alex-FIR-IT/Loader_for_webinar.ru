@@ -85,7 +85,7 @@ def merge_files(*, video_filenames: List, filename: AnyStr):
                                              method='compose')
 
         final_video.write_videofile(filename)
-        delete_chunks(chunks=videos)
+        delete_chunks(chunks=video_filenames)
     else:
         print('Найден всего 1 чанк! Слияние не требуется')
 
