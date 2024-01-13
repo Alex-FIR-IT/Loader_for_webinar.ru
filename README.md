@@ -25,10 +25,14 @@
 1) Открыть терминал в директории скрипта;
 2) Прописать следующую команду:
 
+```shell
+    python scripts/main_script.py
 ```
-    python main_script.py ИЛИ python3 main_script.py
-```
+ИЛИ
 
+```shell
+  python3 scripts/main_script.py
+```
 ## Альтернативные возможности:
 -----------------
 Можно также отдельно запустить слияние файлов. Для этого нужно:
@@ -36,8 +40,14 @@
 1) Открыть терминал в директории скрипта;
 2) Прописать следующую команду:
 
+```shell
+    python scripts/files_merging.py
 ```
-    python files_merging.py ИЛИ python3 files_merging.py
+
+ИЛИ 
+
+```shell
+  python3 scripts/files_merging.py
 ```
 
    
