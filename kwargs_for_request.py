@@ -1,4 +1,3 @@
-
 headers = {
     'Accept': '*/*',
     'Accept-Language': 'ru,en-US;q=0.9,en;q=0.8,ru-RU;q=0.7',
