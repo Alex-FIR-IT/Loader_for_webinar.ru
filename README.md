@@ -16,7 +16,7 @@
 2) Открыть терминал в директории скрипта;
 3) Прописать следующую команду:
 
-```shell
+```commandline
   pip install -r requirements.txt
 ```
 
@@ -25,12 +25,12 @@
 1) Открыть терминал в директории скрипта;
 2) Прописать следующую команду:
 
-```shell
+```commandline
   python scripts/main_script.py
 ```
 ИЛИ
 
-```shell
+```commandline
   python3 scripts/main_script.py
 ```
 ## Альтернативные возможности:
@@ -40,13 +40,13 @@
 1) Открыть терминал в директории скрипта;
 2) Прописать следующую команду:
 
-```shell
+```commandline
   python scripts/files_merging.py
 ```
 
 ИЛИ 
 
-```shell
+```commandline
   python3 scripts/files_merging.py
 ```
 
