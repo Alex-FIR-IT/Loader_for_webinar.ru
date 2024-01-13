@@ -16,8 +16,8 @@
 2) Открыть терминал в директории скрипта;
 3) Прописать следующую команду:
 
-```
-    pip install -r requirements.txt
+```shell
+  pip install -r requirements.txt
 ```
 
 ## Для запуска скрипта необходимо:
@@ -26,7 +26,7 @@
 2) Прописать следующую команду:
 
 ```shell
-    python scripts/main_script.py
+  python scripts/main_script.py
 ```
 ИЛИ
 
@@ -41,7 +41,7 @@
 2) Прописать следующую команду:
 
 ```shell
-    python scripts/files_merging.py
+  python scripts/files_merging.py
 ```
 
 ИЛИ 
