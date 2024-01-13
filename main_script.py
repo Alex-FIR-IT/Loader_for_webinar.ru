@@ -10,7 +10,11 @@ from decorators import print_execution_time
 from files_merging import merge_files, get_merge_files_or_not_from_user
 
 
-def load_from_json():
+def load_from_json() -> Dict:
+    """
+    Loads script settings from settings.json and then convert it into dict to return it
+    :return: dict with script settings
+    """
     with open(file='settings.json', mode='r') as file:
         return json.load(fp=file)
 
