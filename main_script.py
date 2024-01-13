@@ -178,6 +178,12 @@ def download_webinar() -> Dict:
 if __name__ == "__main__":
     filenames_dict = download_webinar()
 
-    if get_merge_files_or_not_from_user():
+    script_settings = load_from_json()
+
+    if script_settings.get('auto_files_merging'):
         merge_files(video_filenames=filenames_dict.get('chunks_filenames'),
                     filename=filenames_dict.get('webinar_filename'))
+    else:
+        if get_merge_files_or_not_from_user():
+            merge_files(video_filenames=filenames_dict.get('chunks_filenames'),
+                        filename=filenames_dict.get('webinar_filename'))
