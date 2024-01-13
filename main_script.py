@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import ssl
@@ -7,6 +8,11 @@ import requests
 import kwargs_for_request
 from decorators import print_execution_time
 from files_merging import merge_files, get_merge_files_or_not_from_user
+
+
+def load_from_json():
+    with open(file='settings.json', mode='r') as file:
+        return json.load(fp=file)
 
 
 def mkdir_if_not_exists(*, filename: AnyStr) -> AnyStr:
