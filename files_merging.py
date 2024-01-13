@@ -85,8 +85,18 @@ def merge_files(*, video_filenames: List, filename: AnyStr):
                                              method='compose')
 
         final_video.write_videofile(filename)
+        delete_chunks(chunks=videos)
     else:
         print('Найден всего 1 чанк! Слияние не требуется')
+
+
+def delete_chunks(chunks: List):
+    """
+    Takes list with filepaths to chunks and then delete them all
+    :param chunks: List with all filepaths to chunks
+    """
+    for chunk in chunks:
+        os.remove(chunk)
 
 
 if __name__ == '__main__':
