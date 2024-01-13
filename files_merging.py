@@ -1,7 +1,9 @@
 import os
 import re
 from typing import List, AnyStr
+
 from moviepy.editor import VideoFileClip, concatenate_videoclips
+
 from decorators import print_execution_time
 
 
@@ -61,7 +63,7 @@ def get_directory_from_user():
 def get_chunks_filepaths(directory: AnyStr) -> List:
     """
     Create a chunks list, sorts it and then returns it
-    :param directory: direcotry with chunks
+    :param directory: directory with chunks
     :return: sorted list with filepath for each chunk
     :raise ValueError if there are no chunks in directory
     """
@@ -70,7 +72,7 @@ def get_chunks_filepaths(directory: AnyStr) -> List:
     except ValueError as error:
         raise ValueError(f'В указанной директории присутствуют файлы, помимо чанков!\nТело ошибки: {error}')
 
-    chunks_filepaths = [os.path.join(directory, chunk_filiname) for chunk_filiname in chunks_filenames]
+    chunks_filepaths = [os.path.join(directory, chunk_filename) for chunk_filename in chunks_filenames]
     return chunks_filepaths
 
 
