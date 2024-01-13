@@ -4,7 +4,7 @@ from typing import List, AnyStr
 
 from moviepy.editor import VideoFileClip, concatenate_videoclips
 
-from decorators import print_execution_time
+from support.decorators import print_execution_time
 
 
 def get_merge_files_or_not_from_user() -> bool:
