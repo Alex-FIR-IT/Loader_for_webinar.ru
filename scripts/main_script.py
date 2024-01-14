@@ -61,7 +61,7 @@ def get_link_from_user() -> re.Match:
                             string=input("Вставьте, пожалуйста, ссылку на страницу с вебинаром: \n> "))
 
         if not link:
-            print('По указанной ссылке скрипт не сможет выгрузить вебинар!\n')
+            print('Ссылка не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n')
 
     return link
 
