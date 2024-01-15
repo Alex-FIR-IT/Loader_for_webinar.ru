@@ -14,7 +14,7 @@ def load_from_json() -> Dict:
     Loads script settings from settings.json and then convert it into dict to return it
     :return: dict with script settings
     """
-    with open(file='../settings.json', mode='r') as file:
+    with open(file='settings.json', mode='r') as file:
         return json.load(fp=file)
 
 
