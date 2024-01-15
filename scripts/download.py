@@ -152,7 +152,7 @@ def download_webinar() -> Dict:
     print(f'Количество видео-роликов: {video_chunks_urls_length}: \n{"\n".join(video_chunks_urls)}')
     print('Загрузка началась!')
 
-    webinar_filename = re.sub(pattern=r'[\s\/:*?"<>|+.]+',
+    webinar_filename = re.sub(pattern=r'[\s\/:*?"<>|+]+',
                               repl=r'_',
                               string=get_filename(json_data=json_data)
                               )
