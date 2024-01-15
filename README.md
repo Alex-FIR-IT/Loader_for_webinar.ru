@@ -30,12 +30,12 @@
 2) Прописать следующую команду:
 
 ```commandline
-  python scripts/main_script.py
+  python main.py
 ```
 ИЛИ
 
 ```commandline
-  python3 scripts/main_script.py
+  python3 main.py
 ```
 ## Альтернативные возможности:
 -----------------
