@@ -152,7 +152,7 @@ def download_webinar() -> Dict:
     print(f'Количество видео-роликов: {video_chunks_urls_length}: \n{"\n".join(video_chunks_urls)}')
     print('Загрузка началась!')
 
-    webinar_filename = get_filename(json_data=json_data)
+    webinar_filename = get_filename(json_data=json_data).replace(' ', '_')
     directory = mkdir_if_not_exists(filename=webinar_filename)
     chunks_filenames = []
     for index, video_chunk_url in enumerate(video_chunks_urls):
