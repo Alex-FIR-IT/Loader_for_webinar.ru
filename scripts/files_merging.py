@@ -1,9 +1,7 @@
 import os
 import re
 from typing import List, AnyStr
-
 from moviepy.editor import VideoFileClip, concatenate_videoclips
-
 from support.decorators import print_execution_time
 
 

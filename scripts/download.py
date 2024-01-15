@@ -1,4 +1,3 @@
-import json
 import os
 import re
 import ssl
@@ -7,15 +6,6 @@ from typing import List, Dict, AnyStr
 import requests
 from support import kwargs_for_request
 from support.decorators import print_execution_time
-
-
-def load_from_json() -> Dict:
-    """
-    Loads script settings from settings.json and then convert it into dict to return it
-    :return: dict with script settings
-    """
-    with open(file='settings.json', mode='r') as file:
-        return json.load(fp=file)
 
 
 def mkdir_if_not_exists(*, filename: AnyStr) -> AnyStr:
@@ -179,5 +169,3 @@ def download_webinar() -> Dict:
     return {'chunks_filenames': chunks_filenames,
             'webinar_filename': f'{os.path.join(directory, webinar_filename)}'
             }
-
-

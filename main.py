@@ -1,5 +1,16 @@
-from scripts.download import download_webinar, load_from_json
+import json
+from typing import Dict
+from scripts.download import download_webinar
 from scripts.files_merging import merge_files, get_merge_files_or_not_from_user
+
+
+def load_from_json() -> Dict:
+    """
+    Loads script settings from settings.json and then convert it into dict to return it
+    :return: dict with script settings
+    """
+    with open(file='settings.json', mode='r') as file:
+        return json.load(fp=file)
 
 
 def main():
