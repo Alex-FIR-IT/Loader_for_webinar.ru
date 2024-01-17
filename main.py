@@ -1,7 +1,6 @@
 import json
 import os.path
 import re
-import sys
 from typing import Dict
 import chime
 from scripts.download import download_webinar
@@ -78,7 +77,7 @@ def main():
         links_from_user = (get_link_from_user(),)
     elif user_option == '2':
         main_merge_files()
-        sys.exit()
+        return
     elif user_option == '3':
         filename = get_filename_from_user()
         links_from_user = unload_links_from_file(filename=filename)
@@ -100,6 +99,7 @@ def main():
             if file_merging_will_be_performed:
                 merge_files(video_filenames=filenames_dict.get('chunks_filenames'),
                             filename=filenames_dict.get('webinar_filename'))
+
         except Exception as error:
             print(error)
             chime.error()
