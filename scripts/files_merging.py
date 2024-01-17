@@ -98,7 +98,7 @@ def delete_chunk(*, chunk_name: AnyStr) -> None:
     os.remove(chunk_name)
 
 
-def delete_chunks(chunks: List):
+def delete_chunks(*, chunks: List):
     """
     Takes list with filepaths to chunks and then delete them all
     :param chunks: List with all filepaths to chunks
