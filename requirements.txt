@@ -1,5 +1,6 @@
 certifi==2023.11.17
 charset-normalizer==3.3.2
+chime==0.7.0
 decorator==4.4.2
 idna==3.6
 imageio==2.33.1
