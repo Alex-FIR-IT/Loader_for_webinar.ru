@@ -47,9 +47,19 @@ def choose_option_one_out_of_three_from_user():
                                                   "> ")
                                      )
 
-    if re.fullmatch(pattern=r'1', string=option_number.group()):
-        return True
     return option_number.group()
+
+
+def get_filename_from_user():
+    while True:
+        filename = input('Вставьте путь до файла с ссылками:\n> ')
+
+        if os.path.isfile(filename) and os.path.splitext(p=filename)[-1] == '.txt':
+            break
+
+    return filename
+
+
 
 
 @chime_when_is_done(chime_level='success')
