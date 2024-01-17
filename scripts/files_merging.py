@@ -5,7 +5,7 @@ from moviepy.editor import VideoFileClip, concatenate_videoclips
 from support.decorators import print_execution_time
 
 
-def get_merge_files_or_not_from_user() -> bool:
+def merging_files_is_needed_from_user() -> bool:
     """
     Asks user whether he needs to merge videos or not
     :return: True or None
@@ -14,7 +14,7 @@ def get_merge_files_or_not_from_user() -> bool:
 
     while not user_response:
         user_response = re.fullmatch(pattern=r'да|нет',
-                                     string=input("Запустить процесс слияния файлов? (да или нет)\n> "),
+                                     string=input("Нужно ли будет запустить процесс слияния чанков? (да или нет)\n> "),
                                      flags=re.IGNORECASE
                                      )
 
