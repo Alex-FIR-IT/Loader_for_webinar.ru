@@ -38,25 +38,6 @@ def set_context_for_urllib() -> ssl.SSLContext:
     return context
 
 
-def get_link_from_user() -> re.Match:
-    """
-    Requests a link to webinar from user
-    :return: Match object with group named <record_id>
-    """
-    link = None
-
-    while not link:
-        link = re.fullmatch(pattern=r'https://'
-                                    r'(?:my.mts-link.ru|events.webinar.ru)'
-                                    r'/.+/(?P<record_id>[0-9]+)$',
-                            string=input("Вставьте, пожалуйста, ссылку на страницу с вебинаром: \n> "))
-
-        if not link:
-            print('Ссылка не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n')
-
-    return link
-
-
 def get_json_data_link(*, link: re.Match) -> AnyStr:
     """
     Create url path for json file with data
@@ -143,9 +124,8 @@ def download_video_chunk(*, video_chunk_url: AnyStr, filename: AnyStr, directory
 
 @chime_when_is_done(chime_level='success')
 @print_execution_time(action="скачивание")
-def download_webinar() -> Dict:
+def download_webinar(link_from_user) -> Dict:
     set_context_for_urllib()
-    link_from_user = get_link_from_user()
     link_to_json_data = get_json_data_link(link=link_from_user)
 
     json_data = get_json_data_from_link(link_to_json=link_to_json_data)

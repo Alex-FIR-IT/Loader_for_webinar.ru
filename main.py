@@ -7,6 +7,25 @@ from scripts.files_merging import merge_files, get_merge_files_or_not_from_user,
 from support.decorators import chime_when_is_done
 
 
+def get_link_from_user() -> re.Match:
+    """
+    Requests a link to webinar from user
+    :return: Match object with group named <record_id>
+    """
+    link = None
+
+    while not link:
+        link = re.fullmatch(pattern=r'https://'
+                                    r'(?:my.mts-link.ru|events.webinar.ru)'
+                                    r'/.+/(?P<record_id>[0-9]+)$',
+                            string=input("Вставьте, пожалуйста, ссылку на страницу с вебинаром: \n> "))
+
+        if not link:
+            print('Ссылка не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n')
+
+    return link
+
+
 def load_from_json() -> Dict:
     """
     Loads script settings from settings.json and then convert it into dict to return it
