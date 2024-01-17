@@ -151,7 +151,8 @@ def download_webinar() -> Dict:
     video_chunks_urls_with_numeration_for_output = [f"{index + 1}) {video}"
                                                     for index, video in enumerate(video_chunks_urls)]
 
-    print(f'Количество видео-роликов: {len(video_chunks_urls)}: \n'
+    video_chunks_urls_length = len(video_chunks_urls)
+    print(f'Количество видео-роликов: {video_chunks_urls_length}: \n'
           f'{"\n".join(video_chunks_urls_with_numeration_for_output)}')
 
     print('Загрузка началась!')
