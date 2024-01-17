@@ -2,7 +2,7 @@ import os
 import re
 from typing import List, AnyStr
 from moviepy.editor import VideoFileClip, concatenate_videoclips
-from support.decorators import print_execution_time
+from support.decorators import print_execution_time, chime_when_is_done
 
 
 def merging_files_is_needed_from_user() -> bool:
@@ -74,6 +74,7 @@ def get_chunks_filepaths(directory: AnyStr) -> List:
     return chunks_filepaths
 
 
+@chime_when_is_done(chime_level='info')
 @print_execution_time(action='слияние чанков')
 def merge_files(*, video_filenames: List, filename: AnyStr):
     videos = [VideoFileClip(filename=filename) for filename in video_filenames]
