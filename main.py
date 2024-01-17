@@ -1,9 +1,11 @@
 import json
+import os.path
 import re
+import sys
 from typing import Dict
 import chime
 from scripts.download import download_webinar
-from scripts.files_merging import merge_files, get_merge_files_or_not_from_user, main_merge_files
+from scripts.files_merging import merge_files, merging_files_is_needed_from_user, main_merge_files
 from support.decorators import chime_when_is_done
 
 
@@ -70,20 +72,37 @@ def unload_links_from_file(filename):
 
 @chime_when_is_done(chime_level='success')
 def main():
-    if use_only_merging_from_user():
+    user_option = choose_option_one_out_of_three_from_user()
+
+    if user_option == '1':
+        links_from_user = (get_link_from_user(),)
+    elif user_option == '2':
         main_merge_files()
+        sys.exit()
+    elif user_option == '3':
+        filename = get_filename_from_user()
+        links_from_user = unload_links_from_file(filename=filename)
     else:
-        filenames_dict = download_webinar()
+        raise NotImplementedError('Эта ошибка не должна была возникнуть'
+                                  ' - ошибка выбора в функции choose_option_one_out_of_three_from_user')
 
-        script_settings = load_from_json()
+    script_settings = load_from_json()
 
-        if script_settings.get('auto_files_merging'):
-            merge_files(video_filenames=filenames_dict.get('chunks_filenames'),
-                        filename=filenames_dict.get('webinar_filename'))
-        else:
-            if get_merge_files_or_not_from_user():
+    if script_settings.get('auto_files_merging') or merging_files_is_needed_from_user():
+        file_merging_will_be_performed = True
+    else:
+        file_merging_will_be_performed = False
+
+    for link_from_user in links_from_user:
+        try:
+            filenames_dict = download_webinar(link_from_user=link_from_user)
+
+            if file_merging_will_be_performed:
                 merge_files(video_filenames=filenames_dict.get('chunks_filenames'),
                             filename=filenames_dict.get('webinar_filename'))
+        except Exception as error:
+            print(error)
+            chime.error()
 
 
 if __name__ == '__main__':
