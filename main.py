@@ -60,6 +60,12 @@ def get_filename_from_user():
     return filename
 
 
+def unload_links_from_file(filename):
+    with open(file=filename, mode='r') as file:
+        links = file.readlines()
+
+    if links:
+        return links
 
 
 @chime_when_is_done(chime_level='success')
