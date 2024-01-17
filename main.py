@@ -1,7 +1,7 @@
 import json
 import os.path
 import re
-from typing import Dict
+from typing import Dict, AnyStr, List
 import chime
 from scripts.download import download_webinar
 from scripts.files_merging import merge_files, merging_files_is_needed_from_user, main_merge_files
@@ -36,7 +36,11 @@ def load_from_json() -> Dict:
         return json.load(fp=file)
 
 
-def choose_option_one_out_of_three_from_user():
+def choose_option_one_out_of_three_from_user() -> AnyStr:
+    """
+    get from user '1', '2', '3' and then returns is
+    :return: '1' or '2' or '3'
+    """
     option_number = None
 
     while not option_number:
@@ -51,7 +55,11 @@ def choose_option_one_out_of_three_from_user():
     return option_number.group()
 
 
-def get_filename_from_user():
+def get_filename_from_user() -> AnyStr:
+    """
+    Get filename from user, then check whether this file exists and file's extension is '.txt
+    :return: filename
+    """
     while True:
         filename = input('Вставьте путь до файла с ссылками:\n> ')
 
@@ -61,7 +69,12 @@ def get_filename_from_user():
     return filename
 
 
-def unload_links_from_file(filename):
+def unload_links_from_file(*, filename: AnyStr) -> List[AnyStr]:
+    """
+    Open file, read likks to webinars from it and then returns it as a list
+    :param filename: file which contains links to webinars
+    :return: list with links to webinars
+    """
     with open(file=filename, mode='r') as file:
         links = file.readlines()
 
@@ -70,7 +83,11 @@ def unload_links_from_file(filename):
 
 
 @chime_when_is_done(chime_level='success')
-def main():
+def main() -> None:
+    """
+    Main function which starts script
+    :return: None
+    """
     user_option = choose_option_one_out_of_three_from_user()
 
     if user_option == '1':

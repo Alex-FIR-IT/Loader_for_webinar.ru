@@ -28,7 +28,12 @@ def print_execution_time(*, action: AnyStr):
 
 
 def chime_when_is_done(*, chime_level: AnyStr):
-    def wrapper_1(func):
+    """
+    Chime after function is accomplished
+    :param chime_level: 'success' or 'info' or 'warning' or 'error'
+    :return: wrapper which additionally chime after function is accomplished
+    """
+    def wrapper_1(func: Callable):
         @wraps(wrapped=func)
         def wrapper_2(*args, **kwargs):
 

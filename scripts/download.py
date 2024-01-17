@@ -124,6 +124,11 @@ def download_video_chunk(*, video_chunk_url: AnyStr, filename: AnyStr, directory
 @chime_when_is_done(chime_level='info')
 @print_execution_time(action="скачивание")
 def download_webinar(link_from_user) -> Dict:
+    """
+    Download webinar using link and then returns dict{chunks_filenames, webinar_filename}
+    :param link_from_user: link to webinar
+    :return: dict{chunks_filenames, webinar_filename}
+    """
     set_context_for_urllib()
     link_to_json_data = get_json_data_link(link=link_from_user)
 
