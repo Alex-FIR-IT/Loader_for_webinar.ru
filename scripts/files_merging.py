@@ -2,7 +2,7 @@ import os
 import re
 from typing import List, AnyStr
 from moviepy.editor import VideoFileClip, concatenate_videoclips
-from support.decorators import print_execution_time, chime_when_is_done
+from support.decorators import print_execution_time, chime_when_is_done, retry_execution_if_exception_is_raised
 
 
 def merging_files_is_needed_from_user() -> bool:
