@@ -1,8 +1,10 @@
 import json
 import re
 from typing import Dict
+import chime
 from scripts.download import download_webinar
 from scripts.files_merging import merge_files, get_merge_files_or_not_from_user, main_merge_files
+from support.decorators import chime_when_is_done
 
 
 def load_from_json() -> Dict:
@@ -29,6 +31,7 @@ def use_only_merging_from_user():
         return True
 
 
+@chime_when_is_done(chime_level='success')
 def main():
     if use_only_merging_from_user():
         main_merge_files()
@@ -47,4 +50,7 @@ def main():
 
 
 if __name__ == '__main__':
+    chime.theme('pokemon')
+    chime.notify_exceptions()
+
     main()

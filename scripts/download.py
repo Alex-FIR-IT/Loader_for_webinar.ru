@@ -5,7 +5,7 @@ import urllib.request
 from typing import List, Dict, AnyStr
 import requests
 from support import kwargs_for_request
-from support.decorators import print_execution_time
+from support.decorators import print_execution_time, chime_when_is_done
 
 
 def mkdir_if_not_exists(*, filename: AnyStr) -> AnyStr:
@@ -122,6 +122,7 @@ def get_video_urls(*, json_data: Dict) -> List:
     return urls
 
 
+@chime_when_is_done(chime_level='info')
 def download_video_chunk(*, video_chunk_url: AnyStr, filename: AnyStr, directory: AnyStr) -> bool:
     """
     Download webinar chunk and write it into file
@@ -140,6 +141,7 @@ def download_video_chunk(*, video_chunk_url: AnyStr, filename: AnyStr, directory
     return True
 
 
+@chime_when_is_done(chime_level='success')
 @print_execution_time(action="скачивание")
 def download_webinar() -> Dict:
     set_context_for_urllib()
