@@ -89,13 +89,22 @@ def merge_files(*, video_filenames: List, filename: AnyStr):
         print('Найден всего 1 чанк! Слияние не требуется')
 
 
+@retry_execution_if_exception_is_raised(retries=5, delay=5)
+def delete_chunk(*, chunk_name: AnyStr) -> None:
+    """
+    Delete chunk using its filepath
+    :param chunk_name: filepath to chunk
+    """
+    os.remove(chunk_name)
+
+
 def delete_chunks(chunks: List):
     """
     Takes list with filepaths to chunks and then delete them all
     :param chunks: List with all filepaths to chunks
     """
     for chunk in chunks:
-        os.remove(chunk)
+        delete_chunk(chunk_name=chunk)
 
 
 def main_merge_files():
