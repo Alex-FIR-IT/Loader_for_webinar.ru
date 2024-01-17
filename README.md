@@ -37,21 +37,3 @@
 ```commandline
   python3 main.py
 ```
-## Альтернативные возможности:
------------------
-Можно также отдельно запустить слияние файлов. Для этого нужно:
-
-1) Открыть терминал в директории скрипта;
-2) Прописать следующую команду:
-
-```commandline
-  python scripts/files_merging.py
-```
-
-ИЛИ 
-
-```commandline
-  python3 scripts/files_merging.py
-```
-
-   

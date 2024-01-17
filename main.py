@@ -13,6 +13,21 @@ def load_from_json() -> Dict:
         return json.load(fp=file)
 
 
+def use_only_merging_from_user():
+    option_number = None
+
+    while not option_number:
+        option_number = re.fullmatch(pattern=r'1|2',
+                                     string=input("Что необходимо сделать? \n"
+                                                  "1. Выгрузить запись вебинара;"
+                                                  "2. Запустить процесс слияние файлов.\n"
+                                                  "> ")
+                                     )
+
+    if re.fullmatch(pattern=r'1', string=option_number.group()):
+        return True
+
+
 def main():
     filenames_dict = download_webinar()
 
