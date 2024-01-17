@@ -46,7 +46,9 @@ def get_link_from_user() -> re.Match:
     link = None
 
     while not link:
-        link = re.fullmatch(pattern=r'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$',
+        link = re.fullmatch(pattern=r'https://'
+                                    r'(?:my.mts-link.ru|events.webinar.ru)'
+                                    r'/.+/(?P<record_id>[0-9]+)$',
                             string=input("Вставьте, пожалуйста, ссылку на страницу с вебинаром: \n> "))
 
         if not link:
