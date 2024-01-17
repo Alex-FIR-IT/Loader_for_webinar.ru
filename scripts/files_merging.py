@@ -97,7 +97,7 @@ def delete_chunks(chunks: List):
         os.remove(chunk)
 
 
-if __name__ == '__main__':
+def main_merge_files():
     webinar_filename = get_webinar_filename_from_user()
 
     directory_with_chunks = get_directory_from_user()
