@@ -1,6 +1,6 @@
 import os
 import re
-from typing import List, AnyStr
+from typing import List
 from moviepy.editor import VideoFileClip, concatenate_videoclips
 from support.decorators import print_execution_time, chime_when_is_done, retry_execution_if_exception_is_raised
 
@@ -22,7 +22,7 @@ def merging_files_is_needed_from_user() -> bool:
         return True
 
 
-def get_webinar_filename_from_user() -> AnyStr:
+def get_webinar_filename_from_user() -> str:
     """
     Get webinar filename from user. If filename does not have extension '.mp4', then add it by itself
     :return: webinar_filename
@@ -58,7 +58,7 @@ def get_directory_from_user():
     return directory
 
 
-def get_chunks_filepaths(directory: AnyStr) -> List:
+def get_chunks_filepaths(directory: str) -> List:
     """
     Create a chunks list, sorts it and then returns it
     :param directory: directory with chunks
@@ -76,7 +76,7 @@ def get_chunks_filepaths(directory: AnyStr) -> List:
 
 @chime_when_is_done(chime_level='info')
 @print_execution_time(action='слияние чанков')
-def merge_files(*, video_filenames: List, filename: AnyStr):
+def merge_files(*, video_filenames: List, filename: str):
     videos = [VideoFileClip(filename=filename) for filename in video_filenames]
 
     if len(videos) > 1:
@@ -90,7 +90,7 @@ def merge_files(*, video_filenames: List, filename: AnyStr):
 
 
 @retry_execution_if_exception_is_raised(retries=5, delay=5)
-def delete_chunk(*, chunk_name: AnyStr) -> None:
+def delete_chunk(*, chunk_name: str) -> None:
     """
     Delete chunk using its filepath
     :param chunk_name: filepath to chunk

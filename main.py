@@ -1,7 +1,7 @@
 import json
 import os.path
 import re
-from typing import Dict, AnyStr, List
+from typing import Dict,  List
 import chime
 from scripts.download import download_webinar
 from scripts.files_merging import merge_files, merging_files_is_needed_from_user, main_merge_files
@@ -36,7 +36,7 @@ def load_from_json() -> Dict:
         return json.load(fp=file)
 
 
-def choose_option_one_out_of_three_from_user() -> AnyStr:
+def choose_option_one_out_of_three_from_user() -> str:
     """
     get from user '1', '2', '3' and then returns is
     :return: '1' or '2' or '3'
@@ -55,7 +55,7 @@ def choose_option_one_out_of_three_from_user() -> AnyStr:
     return option_number.group()
 
 
-def get_filename_from_user() -> AnyStr:
+def get_filename_from_user() -> str:
     """
     Get filename from user, then check whether this file exists and file's extension is '.txt
     :return: filename
@@ -69,7 +69,7 @@ def get_filename_from_user() -> AnyStr:
     return filename
 
 
-def unload_links_from_file(*, filename: AnyStr) -> List[AnyStr]:
+def unload_links_from_file(*, filename: str) -> List[str]:
     """
     Open file, read likks to webinars from it and then returns it as a list
     :param filename: file which contains links to webinars

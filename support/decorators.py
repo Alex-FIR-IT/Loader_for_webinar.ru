@@ -1,10 +1,10 @@
 import time
 from functools import wraps
-from typing import Callable, AnyStr, Union
+from typing import Callable, Union
 import chime
 
 
-def print_execution_time(*, action: AnyStr):
+def print_execution_time(*, action: str):
     """
     Prints execution time for a decorated function
     :param action: what a decorated function does
@@ -27,7 +27,7 @@ def print_execution_time(*, action: AnyStr):
     return wrapper_1
 
 
-def chime_when_is_done(*, chime_level: AnyStr):
+def chime_when_is_done(*, chime_level: str):
     """
     Chime after function is accomplished
     :param chime_level: 'success' or 'info' or 'warning' or 'error'
@@ -56,7 +56,7 @@ def chime_when_is_done(*, chime_level: AnyStr):
     return wrapper_1
 
 
-def retry_execution_if_exception_is_raised(*, retries: int, delay: Union[int, AnyStr]):
+def retry_execution_if_exception_is_raised(*, retries: int, delay: Union[int, str]):
     def wrapper_1(func: Callable):
         @wraps(wrapped=func)
         def wrapper_2(*args, **kwargs):

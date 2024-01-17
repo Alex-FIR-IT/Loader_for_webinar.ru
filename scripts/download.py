@@ -2,13 +2,13 @@ import os
 import re
 import ssl
 import urllib.request
-from typing import List, Dict, AnyStr
+from typing import List, Dict
 import requests
 from support import kwargs_for_request
 from support.decorators import print_execution_time, chime_when_is_done
 
 
-def mkdir_if_not_exists(*, filename: AnyStr) -> AnyStr:
+def mkdir_if_not_exists(*, filename: str) -> str:
     """
     If directory does not exist, then create it and returns its path,
     otherwise just returns its path
@@ -38,7 +38,7 @@ def set_context_for_urllib() -> ssl.SSLContext:
     return context
 
 
-def get_json_data_link(*, link: re.Match) -> AnyStr:
+def get_json_data_link(*, link: re.Match) -> str:
     """
     Create url path for json file with data
     :param link: Match object with group named <record_id>
@@ -52,7 +52,7 @@ def get_json_data_link(*, link: re.Match) -> AnyStr:
     return fr"https://my.mts-link.ru/api/eventsessions/{link.group('record_id')}/record?withoutCuts=false"
 
 
-def get_json_data_from_link(*, link_to_json: AnyStr) -> Dict:
+def get_json_data_from_link(*, link_to_json: str) -> Dict:
     """
     Passes link_to_json into requests.get and returns json
     :param link_to_json: url which is required to download json
@@ -66,7 +66,7 @@ def get_json_data_from_link(*, link_to_json: AnyStr) -> Dict:
     return json_data.json()
 
 
-def get_filename(*, json_data: Dict) -> AnyStr:
+def get_filename(*, json_data: Dict) -> str:
     """
     If there is webinar filename in dict, then returns it,
     otherwise returns 'Name_is_not_found.mp4'
@@ -103,7 +103,7 @@ def get_video_urls(*, json_data: Dict) -> List:
     return urls
 
 
-def download_video_chunk(*, video_chunk_url: AnyStr, filename: AnyStr, directory: AnyStr) -> bool:
+def download_video_chunk(*, video_chunk_url: str, filename: str, directory: str) -> bool:
     """
     Download webinar chunk and write it into file
     :param video_chunk_url: url to chunk
