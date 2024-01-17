@@ -49,6 +49,7 @@ def choose_option_one_out_of_three_from_user():
 
     if re.fullmatch(pattern=r'1', string=option_number.group()):
         return True
+    return option_number.group()
 
 
 @chime_when_is_done(chime_level='success')
