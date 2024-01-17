@@ -46,7 +46,7 @@ def choose_option_one_out_of_three_from_user() -> AnyStr:
     while not option_number:
         option_number = re.fullmatch(pattern=r'1|2|3',
                                      string=input("Что необходимо сделать? \n"
-                                                  "1. Выгрузить запись вебинара;"
+                                                  "1. Выгрузить запись вебинара;\n"
                                                   "2. Запустить процесс слияние чанков.\n"
                                                   "3. Выгрузить несколько вебинаров, используя пакетную загрузку\n"
                                                   "> ")
