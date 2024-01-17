@@ -103,7 +103,6 @@ def get_video_urls(*, json_data: Dict) -> List:
     return urls
 
 
-@chime_when_is_done(chime_level='info')
 def download_video_chunk(*, video_chunk_url: AnyStr, filename: AnyStr, directory: AnyStr) -> bool:
     """
     Download webinar chunk and write it into file
@@ -122,7 +121,7 @@ def download_video_chunk(*, video_chunk_url: AnyStr, filename: AnyStr, directory
     return True
 
 
-@chime_when_is_done(chime_level='success')
+@chime_when_is_done(chime_level='info')
 @print_execution_time(action="скачивание")
 def download_webinar(link_from_user) -> Dict:
     set_context_for_urllib()
