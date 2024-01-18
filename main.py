@@ -89,11 +89,13 @@ def main() -> None:
     :return: None
     """
     user_option = choose_option_one_out_of_three_from_user()
+    script_settings = load_from_json()
+    remove_mp3 = script_settings.get('remove_mp3_after_merging_chunks')
 
     if user_option == '1':
         links_from_user = (get_link_from_user(),)
     elif user_option == '2':
-        main_merge_files()
+        main_merge_files(remove_mp3=remove_mp3)
         return
     elif user_option == '3':
         filename = get_filename_from_user()
@@ -102,7 +104,7 @@ def main() -> None:
         raise NotImplementedError('Эта ошибка не должна была возникнуть'
                                   ' - ошибка выбора в функции choose_option_one_out_of_three_from_user')
 
-    script_settings = load_from_json()
+
 
     if script_settings.get('auto_files_merging') or merging_files_is_needed_from_user():
         file_merging_will_be_performed = True
@@ -111,11 +113,14 @@ def main() -> None:
 
     for link_from_user in links_from_user:
         try:
-            filenames_dict = download_webinar(link_from_user=link_from_user)
+            webinar_info = download_webinar(link_from_user=link_from_user)
 
             if file_merging_will_be_performed:
-                merge_files(video_filenames=filenames_dict.get('chunks_filenames'),
-                            filename=filenames_dict.get('webinar_filename'))
+                merge_files(video_filenames=webinar_info.get('chunks_filenames'),
+                            filename=webinar_info.get('webinar_filename'),
+                            remove_mp3=remove_mp3,
+                            directory=webinar_info.get('directory')
+                            )
 
         except Exception as error:
             print(error)
