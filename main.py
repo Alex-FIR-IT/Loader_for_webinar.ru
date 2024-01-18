@@ -35,7 +35,20 @@ def get_record_id_out_of_link_from_user() -> re.Match:
         if not link:
             print('Ссылка не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n')
 
-    return link
+    return record_id
+
+
+def get_record_ids_from_links(links):
+    record_ids = []
+    for link in links:
+        record_id = get_record_id_if_link_is_correct(link=link)
+
+        if not record_id:
+            raise ValueError('Ссылка не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n')
+
+        record_ids.append(record_id)
+
+    return record_ids
 
 
 def load_from_json() -> Dict:
