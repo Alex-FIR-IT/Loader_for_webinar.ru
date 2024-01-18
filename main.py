@@ -1,12 +1,20 @@
+import datetime
 import json
 import os.path
 import re
+import sys
 from typing import Dict, List
 import chime
 from scripts.download import download_webinar
 from scripts.files_merging import merge_files, merging_files_is_needed_from_user, main_merge_files
 from support.decorators import chime_when_is_done
 import logging
+
+
+logging.basicConfig(level=logging.ERROR,
+                    filename=f"Loader_for_webinar.ru.ERROR.{datetime.date.today()}.log",
+                    filemode="a",
+                    format="\n%(asctime)s %(message)s %(levelname)s:")
 
 
 def get_record_id_if_link_is_correct(*, link: str) -> str:
@@ -156,7 +164,7 @@ def main() -> None:
 
     for record_id in record_ids_tpl:
         try:
-            webinar_info = download_webinar(record_id=record_id)
+            webinar_info = download_webinar(ord_id=record_id)
 
             if file_merging_will_be_performed:
                 merge_files(chunks_filepaths=webinar_info.get('chunks_filepaths'),
@@ -165,7 +173,10 @@ def main() -> None:
                             )
 
         except Exception as error:
-            print(error)
+            print(f'Exception has been raised: {error}\n'
+                  f'{sys.exc_info()}')
+
+            logging.exception(msg=error, exc_info=True, stack_info=True)
             chime.error()
 
 
