@@ -107,11 +107,14 @@ def delete_chunks(*, chunks: List):
         delete_chunk(chunk_name=chunk)
 
 
-def main_merge_files():
+def main_merge_files(*, remove_mp3: bool):
     webinar_filename = get_webinar_filename_from_user()
 
     directory_with_chunks = get_directory_from_user()
     chunks_filenames = get_chunks_filepaths(directory=directory_with_chunks)
 
     merge_files(video_filenames=chunks_filenames,
-                filename=os.path.join(directory_with_chunks, webinar_filename))
+                filename=os.path.join(directory_with_chunks, webinar_filename),
+                remove_mp3=remove_mp3,
+                directory=directory_with_chunks
+                )
