@@ -160,8 +160,8 @@ def main() -> None:
             webinar_info = download_webinar(record_id=record_id)
 
             if file_merging_will_be_performed:
-                merge_files(video_filenames=webinar_info.get('chunks_filenames'),
-                            filename=webinar_info.get('webinar_filename'),
+                merge_files(chunks_filepaths=webinar_info.get('chunks_filepaths'),
+                            filename=webinar_info.get('webinar_filepath'),
                             remove_mp3=remove_mp3,
                             )
 
