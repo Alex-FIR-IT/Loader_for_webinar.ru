@@ -66,25 +66,28 @@ def get_chunks_filepaths(directory: str) -> List:
     :raise ValueError if there are no chunks in directory
     """
     try:
-        chunks_filenames = sorted(os.listdir(path=directory), key=lambda x: int(x[0]))
+        chunks_filepaths = sorted(os.listdir(path=directory), key=lambda x: int(x[0]))
     except ValueError as error:
         raise ValueError(f'В указанной директории присутствуют файлы, помимо чанков!\nТело ошибки: {error}')
 
-    chunks_filepaths = [os.path.join(directory, chunk_filename) for chunk_filename in chunks_filenames]
+    chunks_filepaths = [os.path.join(directory, chunk_filename) for chunk_filename in chunks_filepaths]
     return chunks_filepaths
 
 
 @chime_when_is_done(chime_level='info')
 @print_execution_time(action='слияние чанков')
-def merge_files(*, video_filenames: List, filename: str):
-    videos = [VideoFileClip(filename=filename) for filename in video_filenames]
+def merge_files(*, chunks_filepaths: List, filepath: str, remove_mp3: bool):
+    videos = [VideoFileClip(filename=chunks_filepath) for chunks_filepath in chunks_filepaths]
 
     if len(videos) > 1:
         final_video = concatenate_videoclips(clips=videos,
                                              method='compose')
 
-        final_video.write_videofile(filename)
-        delete_chunks(chunks=video_filenames)
+        final_video.write_videofile(filename=filepath,
+                                    remove_temp=remove_mp3,
+                                    temp_audiofile=f'{filepath[:-1]}3'
+                                    )
+        delete_chunks(chunks=chunks_filepaths)
     else:
         print('Найден всего 1 чанк! Слияние не требуется')
 
@@ -111,10 +114,9 @@ def main_merge_files(*, remove_mp3: bool):
     webinar_filename = get_webinar_filename_from_user()
 
     directory_with_chunks = get_directory_from_user()
-    chunks_filenames = get_chunks_filepaths(directory=directory_with_chunks)
+    chunks_filepaths = get_chunks_filepaths(directory=directory_with_chunks)
 
-    merge_files(video_filenames=chunks_filenames,
-                filename=os.path.join(directory_with_chunks, webinar_filename),
+    merge_files(chunks_filepaths=chunks_filepaths,
+                filepath=os.path.join(directory_with_chunks, webinar_filename),
                 remove_mp3=remove_mp3,
-                directory=directory_with_chunks
                 )

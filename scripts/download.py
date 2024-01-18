@@ -90,16 +90,15 @@ def get_video_urls(*, json_data: Dict) -> List:
     return urls
 
 
-def download_video_chunk(*, video_chunk_url: str, filename: str, directory: str) -> bool:
+def download_video_chunk(*, video_chunk_url: str, filepath: str) -> bool:
     """
     Download webinar chunk and write it into file
     :param video_chunk_url: url to chunk
-    :param filename: chunk filename
-    :param directory: directory defines into which directory the downloaded_video_chunk will be installed
+    :param filepath: chunk filepath
     :return: True if any exception is not raised
     """
 
-    with open(f'{os.path.join(directory, filename)}', 'wb') as output_chunk_file:
+    with open(filepath, 'wb') as output_chunk_file:
         with requests.get(url=video_chunk_url, stream=True) as request_obj:
             request_obj.raise_for_status()
             total = int(request_obj.headers.get('content-length', 0))
@@ -125,9 +124,9 @@ def download_video_chunk(*, video_chunk_url: str, filename: str, directory: str)
 @print_execution_time(action="скачивание")
 def download_webinar(link_from_user) -> Dict:
     """
-    Download webinar using link and then returns dict{chunks_filenames, webinar_filename}
+    Download webinar using link and then returns dict{chunks_filepaths, webinar_filename}
     :param link_from_user: link to webinar
-    :return: dict{chunks_filenames, webinar_filename}
+    :return: dict{chunks_filepaths, webinar_filename}
     """
 
     link_to_json_data = get_json_data_link(link=link_from_user)
@@ -151,19 +150,18 @@ def download_webinar(link_from_user) -> Dict:
                               )
 
     directory = mkdir_if_not_exists(filename=webinar_filename)
-    chunks_filenames = []
+    chunks_filepaths = []
     for index, video_chunk_url in enumerate(video_chunks_urls):
-        filename = os.path.join(directory, f'{index + 1}) {webinar_filename}')
-        chunks_filenames.append(filename)
+        filepath = os.path.join(directory, f'{index + 1}) {webinar_filename}')
+        chunks_filepaths.append(filepath)
         download_video_chunk(video_chunk_url=video_chunk_url,
-                             filename=filename,
-                             directory=directory
+                             filepath=filepath
                              )
         print(f'{index + 1}/{video_chunks_urls_length} выполнено!')
 
     print('Готово!')
 
-    return {'chunks_filenames': chunks_filenames,
-            'webinar_filename': f'{os.path.join(directory, webinar_filename)}',
+    return {'chunks_filepaths': chunks_filepaths,
+            'webinar_filepath': f'{os.path.join(directory, webinar_filename)}',
             'directory': directory
             }
