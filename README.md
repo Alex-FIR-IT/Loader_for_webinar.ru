@@ -32,9 +32,9 @@
 ```commandline
   git clone https://github.com/Alex-FIR-IT/Loader_for_webinar.ru
 ```
-3) Перетащить скрипт в любую локальную папку и распаковать;
-4) Открыть терминал в директории скрипта;
-5) Прописать следующую команду:
+
+3) Открыть терминал в директории скрипта;
+4) Прописать следующую команду:
 
 ```commandline
   pip install -r requirements.txt
