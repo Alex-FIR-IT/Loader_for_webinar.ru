@@ -25,23 +25,23 @@ def mkdir_if_not_exists(*, filename: str) -> str:
     return directory
 
 
-def get_json_data_link(*, link: re.Match) -> str:
+def get_json_data_link(*, record_id: str) -> str:
     """
     Create url path for json file with data
-    :param link: Match object with group named <record_id>
+    :param record_id: string value of record_id
     :return: url to json_data
     :raise ConnectionRefusedError if there is no record_id
     """
 
-    if not link.group('record_id'):
+    if not record_id:
         raise ConnectionRefusedError("Отсутствует id вебинара")
 
-    return fr"https://my.mts-link.ru/api/eventsessions/{link.group('record_id')}/record?withoutCuts=false"
+    return fr"https://my.mts-link.ru/api/eventsessions/{record_id}/record?withoutCuts=false"
 
 
 def get_json_data_from_link(*, link_to_json: str) -> Dict:
     """
-    Passes link_to_json into requests.get and returns json
+    Passes link_to_json into function requests.get() and returns json
     :param link_to_json: url which is required to download json
     :return: dict with json_data
     """
@@ -122,14 +122,14 @@ def download_video_chunk(*, video_chunk_url: str, filepath: str) -> bool:
 
 @chime_when_is_done(chime_level='info')
 @print_execution_time(action="скачивание")
-def download_webinar(link_from_user) -> Dict:
+def download_webinar(*, record_id: str) -> Dict:
     """
     Download webinar using link and then returns dict{chunks_filepaths, webinar_filename}
-    :param link_from_user: link to webinar
+    :param record_id: webinar's record_id
     :return: dict{chunks_filepaths, webinar_filename}
     """
 
-    link_to_json_data = get_json_data_link(link=link_from_user)
+    link_to_json_data = get_json_data_link(record_id=record_id)
 
     json_data = get_json_data_from_link(link_to_json=link_to_json_data)
 
