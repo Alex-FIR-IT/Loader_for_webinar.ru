@@ -6,6 +6,7 @@ import chime
 from scripts.download import download_webinar
 from scripts.files_merging import merge_files, merging_files_is_needed_from_user, main_merge_files
 from support.decorators import chime_when_is_done
+import logging
 
 
 def get_record_id_if_link_is_correct(*, link: str) -> str:
@@ -53,7 +54,7 @@ def get_record_ids_from_links(*, links: List[str]) -> List[str]:
         record_id = get_record_id_if_link_is_correct(link=link)
 
         if not record_id:
-            raise ValueError('Ссылка не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n')
+            raise ValueError(fr'Ссылка - <{link.__repr__()}> не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n')
 
         record_ids.append(record_id)
 
@@ -126,14 +127,14 @@ def main() -> None:
     remove_mp3 = script_settings.get('remove_mp3_after_merging_chunks')
 
     if user_option == '1':
-        record_id_tpl = (get_record_id_out_of_link_from_user(),)
+        record_ids_tpl = (get_record_id_out_of_link_from_user(),)
     elif user_option == '2':
         main_merge_files(remove_mp3=remove_mp3)
         return
     elif user_option == '3':
         filename = get_filename_from_user()
         links = unload_links_from_file(filename=filename)
-        record_id_tpl = get_record_ids_from_links(links=links)
+        record_ids_tpl = get_record_ids_from_links(links=links)
     else:
         raise NotImplementedError('Эта ошибка не должна была возникнуть'
                                   ' - ошибка выбора в функции choose_option_one_out_of_three_from_user')
@@ -143,15 +144,25 @@ def main() -> None:
     else:
         file_merging_will_be_performed = False
 
-    for link_from_user in links_from_user:
+    #    # webinars_infos = [threading.Thread(target=download_webinar,
+    #                                    kwargs={'record_id': record_id})
+    #                   for record_id in record_id_tpl]
+    #
+    # for thread in webinars_infos:
+    #     thread.start()
+    # for thread in webinars_infos:
+    #     thread.join()
+    #
+    # print(webinars_infos)
+
+    for record_id in record_ids_tpl:
         try:
-            webinar_info = download_webinar(link_from_user=link_from_user)
+            webinar_info = download_webinar(record_id=record_id)
 
             if file_merging_will_be_performed:
                 merge_files(video_filenames=webinar_info.get('chunks_filenames'),
                             filename=webinar_info.get('webinar_filename'),
                             remove_mp3=remove_mp3,
-                            directory=webinar_info.get('directory')
                             )
 
         except Exception as error:
