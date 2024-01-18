@@ -144,16 +144,15 @@ def main() -> None:
     else:
         file_merging_will_be_performed = False
 
-    #    # webinars_infos = [threading.Thread(target=download_webinar,
-    #                                    kwargs={'record_id': record_id})
+    # webinars_infos = [threading.Thread(target=download_webinar,
+    #                   kwargs={'record_id': record_id})
     #                   for record_id in record_id_tpl]
+    #  for thread in webinars_infos:
+    #      thread.start()
+    #  for thread in webinars_infos:
+    #      thread.join()
     #
-    # for thread in webinars_infos:
-    #     thread.start()
-    # for thread in webinars_infos:
-    #     thread.join()
-    #
-    # print(webinars_infos)
+    #  print(webinars_infos)  странное взаимодействие с tqdm
 
     for record_id in record_ids_tpl:
         try:
@@ -161,7 +160,7 @@ def main() -> None:
 
             if file_merging_will_be_performed:
                 merge_files(chunks_filepaths=webinar_info.get('chunks_filepaths'),
-                            filename=webinar_info.get('webinar_filepath'),
+                            filepath=webinar_info.get('webinar_filepath'),
                             remove_mp3=remove_mp3,
                             )
 
