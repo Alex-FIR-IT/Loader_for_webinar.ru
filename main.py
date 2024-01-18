@@ -24,15 +24,13 @@ def get_record_id_out_of_link_from_user() -> re.Match:
     Requests a link to webinar from user
     :return: Match object with group named <record_id>
     """
-    link = None
+    record_id = None
 
-    while not link:
-        link = re.fullmatch(pattern=r'https://'
-                                    r'(?:my.mts-link.ru|events.webinar.ru)'
-                                    r'/.+/(?P<record_id>[0-9]+)$',
-                            string=input("Вставьте, пожалуйста, ссылку на страницу с вебинаром: \n> "))
+    while not record_id:
+        record_id = get_record_id_if_link_is_correct(
+            link=input("Вставьте, пожалуйста, ссылку на страницу с вебинаром: \n> "))
 
-        if not link:
+        if not record_id:
             print('Ссылка не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n')
 
     return record_id
@@ -95,7 +93,7 @@ def get_filename_from_user() -> str:
 
 def unload_links_from_file(*, filename: str) -> List[str]:
     """
-    Open file, read likks to webinars from it and then returns it as a list
+    Open file, read links to webinars from it and then returns it as a list
     :param filename: file which contains links to webinars
     :return: list with links to webinars
     """
@@ -117,18 +115,17 @@ def main() -> None:
     remove_mp3 = script_settings.get('remove_mp3_after_merging_chunks')
 
     if user_option == '1':
-        links_from_user = (get_link_from_user(),)
+        record_id_tpl = (get_record_id_out_of_link_from_user(),)
     elif user_option == '2':
         main_merge_files(remove_mp3=remove_mp3)
         return
     elif user_option == '3':
         filename = get_filename_from_user()
-        links_from_user = unload_links_from_file(filename=filename)
+        links = unload_links_from_file(filename=filename)
+        record_id_tpl = get_record_ids_from_links(links=links)
     else:
         raise NotImplementedError('Эта ошибка не должна была возникнуть'
                                   ' - ошибка выбора в функции choose_option_one_out_of_three_from_user')
-
-
 
     if script_settings.get('auto_files_merging') or merging_files_is_needed_from_user():
         file_merging_will_be_performed = True
