@@ -1,14 +1,25 @@
 import json
 import os.path
 import re
-from typing import Dict,  List
+from typing import Dict, List
 import chime
 from scripts.download import download_webinar
 from scripts.files_merging import merge_files, merging_files_is_needed_from_user, main_merge_files
 from support.decorators import chime_when_is_done
 
 
-def get_link_from_user() -> re.Match:
+def get_record_id_if_link_is_correct(link):
+    link = re.fullmatch(pattern=r'https://'
+                                r'(?:my.mts-link.ru|events.webinar.ru)'
+                                r'/.+/(?P<record_id>[0-9]+)$',
+                        string=link.strip(),
+                        flags=re.MULTILINE
+                        )
+    if link:
+        return link.group('record_id')
+
+
+def get_record_id_out_of_link_from_user() -> re.Match:
     """
     Requests a link to webinar from user
     :return: Match object with group named <record_id>
