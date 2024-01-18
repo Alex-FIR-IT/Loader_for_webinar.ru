@@ -1,9 +1,8 @@
 import os
 import re
-import ssl
-import urllib.request
 from typing import List, Dict
 import requests
+import tqdm
 from support import kwargs_for_request
 from support.decorators import print_execution_time, chime_when_is_done
 
@@ -24,18 +23,6 @@ def mkdir_if_not_exists(*, filename: str) -> str:
         os.mkdir(path=directory)
 
     return directory
-
-
-def set_context_for_urllib() -> ssl.SSLContext:
-    """
-    Sets context for urllib: disables checking for certificate
-    :return: ssl.SSLContext
-    """
-    context = ssl.create_default_context()
-    context.check_hostname = False
-    context.verify_mode = ssl.CERT_NONE
-
-    return context
 
 
 def get_json_data_link(*, link: re.Match) -> str:
@@ -111,12 +98,25 @@ def download_video_chunk(*, video_chunk_url: str, filename: str, directory: str)
     :param directory: directory defines into which directory the downloaded_video_chunk will be installed
     :return: True if any exception is not raised
     """
-    content = urllib.request.urlopen(url=video_chunk_url,
-                                     context=set_context_for_urllib(),
-                                     ).read()
 
-    with open(f'{os.path.join(directory, filename)}', 'ab') as output_file:
-        output_file.write(content)
+    with open(f'{os.path.join(directory, filename)}', 'wb') as output_chunk_file:
+        with requests.get(url=video_chunk_url, stream=True) as request_obj:
+            request_obj.raise_for_status()
+            total = int(request_obj.headers.get('content-length', 0))
+
+            tqdm_params = {
+                'desc': video_chunk_url,
+                'total': total,
+                'miniters': 1,
+                'unit': 'it',
+                'unit_scale': True,
+                'unit_divisor': 1024,
+            }
+
+            with tqdm.tqdm(**tqdm_params) as tqdm_obj:
+                for sub_chunk in request_obj.iter_content(chunk_size=8192):
+                    tqdm_obj.update(len(sub_chunk))
+                    output_chunk_file.write(sub_chunk)
 
     return True
 
@@ -129,7 +129,7 @@ def download_webinar(link_from_user) -> Dict:
     :param link_from_user: link to webinar
     :return: dict{chunks_filenames, webinar_filename}
     """
-    set_context_for_urllib()
+
     link_to_json_data = get_json_data_link(link=link_from_user)
 
     json_data = get_json_data_from_link(link_to_json=link_to_json_data)
@@ -164,5 +164,6 @@ def download_webinar(link_from_user) -> Dict:
     print('Готово!')
 
     return {'chunks_filenames': chunks_filenames,
-            'webinar_filename': f'{os.path.join(directory, webinar_filename)}'
+            'webinar_filename': f'{os.path.join(directory, webinar_filename)}',
+            'directory': directory
             }
