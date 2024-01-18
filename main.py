@@ -8,7 +8,12 @@ from scripts.files_merging import merge_files, merging_files_is_needed_from_user
 from support.decorators import chime_when_is_done
 
 
-def get_record_id_if_link_is_correct(link):
+def get_record_id_if_link_is_correct(*, link: str) -> str:
+    """
+    if link matches the correct link pattern, then returns record_id
+    :param link: link to webinar
+    :return: webinar's record_id
+    """
     link = re.fullmatch(pattern=r'https://'
                                 r'(?:my.mts-link.ru|events.webinar.ru)'
                                 r'/.+/(?P<record_id>[0-9]+)$',
@@ -19,10 +24,10 @@ def get_record_id_if_link_is_correct(link):
         return link.group('record_id')
 
 
-def get_record_id_out_of_link_from_user() -> re.Match:
+def get_record_id_out_of_link_from_user() -> str:
     """
     Requests a link to webinar from user
-    :return: Match object with group named <record_id>
+    :return: webinar's record_id
     """
     record_id = None
 
@@ -36,7 +41,13 @@ def get_record_id_out_of_link_from_user() -> re.Match:
     return record_id
 
 
-def get_record_ids_from_links(links):
+def get_record_ids_from_links(*, links: List[str]) -> List[str]:
+    """
+    Check whether links are correct and then returns list which contains record_ids for each webinar
+    :param links: list with links to webinars
+    :return: list which contains record_ids for each webinar
+    :raise ValueError: if any link is incorrect
+    """
     record_ids = []
     for link in links:
         record_id = get_record_id_if_link_is_correct(link=link)
@@ -80,7 +91,7 @@ def choose_option_one_out_of_three_from_user() -> str:
 def get_filename_from_user() -> str:
     """
     Get filename from user, then check whether this file exists and file's extension is '.txt
-    :return: filename
+    :return: filename with links to webinar.ru
     """
     while True:
         filename = input('Вставьте путь до файла с ссылками:\n> ')

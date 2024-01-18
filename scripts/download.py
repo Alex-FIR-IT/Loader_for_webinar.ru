@@ -27,7 +27,7 @@ def mkdir_if_not_exists(*, filename: str) -> str:
 
 def get_json_data_link(*, record_id: str) -> str:
     """
-    Create url path for json file with data
+    Create url path for remote json file with data
     :param record_id: string value of record_id
     :return: url to json_data
     :raise ConnectionRefusedError if there is no record_id
@@ -126,7 +126,7 @@ def download_webinar(*, record_id: str) -> Dict:
     """
     Download webinar using link and then returns dict{chunks_filepaths, webinar_filename}
     :param record_id: webinar's record_id
-    :return: dict{chunks_filepaths, webinar_filename}
+    :return: dict{chunks_filepaths, webinar_filepath}
     """
 
     link_to_json_data = get_json_data_link(record_id=record_id)
@@ -162,6 +162,5 @@ def download_webinar(*, record_id: str) -> Dict:
     print('Готово!')
 
     return {'chunks_filepaths': chunks_filepaths,
-            'webinar_filepath': f'{os.path.join(directory, webinar_filename)}',
-            'directory': directory
+            'webinar_filepath': f'{os.path.join(directory, webinar_filename)}'
             }

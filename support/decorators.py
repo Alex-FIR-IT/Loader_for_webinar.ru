@@ -57,6 +57,12 @@ def chime_when_is_done(*, chime_level: str):
 
 
 def retry_execution_if_exception_is_raised(*, retries: int, delay: Union[int, str]):
+    """
+    Retries several time function execution, it any exception is raised
+    :param retries: the number of retries
+    :param delay: the number of seconds. Decorator will sleep(delay) when any exception is raised
+    :return: wrapper which retries several time function execution, it any exception is raised
+    """
     def wrapper_1(func: Callable):
         @wraps(wrapped=func)
         def wrapper_2(*args, **kwargs):

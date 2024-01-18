@@ -77,6 +77,12 @@ def get_chunks_filepaths(directory: str) -> List:
 @chime_when_is_done(chime_level='info')
 @print_execution_time(action='слияние чанков')
 def merge_files(*, chunks_filepaths: List, filepath: str, remove_mp3: bool):
+    """
+    Merge given chunks into one mp3 and then mp4 file
+    :param chunks_filepaths: filepaths to all chunks
+    :param filepath: filepath for mp3 and mp4 files (directory + filename)
+    :param remove_mp3: remove mp3 file, if True
+    """
     videos = [VideoFileClip(filename=chunks_filepath) for chunks_filepath in chunks_filepaths]
 
     if len(videos) > 1:
@@ -111,6 +117,10 @@ def delete_chunks(*, chunks: List):
 
 
 def main_merge_files(*, remove_mp3: bool):
+    """
+    Used when user needs only to merge already existent chunks
+    :param remove_mp3: remove mp3 file, if True
+    """
     webinar_filename = get_webinar_filename_from_user()
 
     directory_with_chunks = get_directory_from_user()
