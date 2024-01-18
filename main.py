@@ -164,7 +164,7 @@ def main() -> None:
 
     for record_id in record_ids_tpl:
         try:
-            webinar_info = download_webinar(ord_id=record_id)
+            webinar_info = download_webinar(record_id=record_id)
 
             if file_merging_will_be_performed:
                 merge_files(chunks_filepaths=webinar_info.get('chunks_filepaths'),
