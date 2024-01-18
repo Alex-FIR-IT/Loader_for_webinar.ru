@@ -1,4 +1,4 @@
 {
     "auto_files_merging": false,
-    "remove_mp3_after_merging_chunks": true
+    "remove_mp3_after_merging_chunks": false
 }
