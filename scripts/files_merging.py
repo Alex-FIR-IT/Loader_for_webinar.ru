@@ -87,7 +87,8 @@ def merge_files(*, chunks_filepaths: List, filepath: str, remove_mp3: bool):
 
     if len(videos) > 1:
         final_video = concatenate_videoclips(clips=videos,
-                                             method='compose')
+                                             method='compose'
+                                             )
 
         final_video.write_videofile(filename=filepath,
                                     remove_temp=remove_mp3,

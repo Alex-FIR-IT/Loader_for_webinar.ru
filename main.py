@@ -62,7 +62,9 @@ def get_record_ids_from_links(*, links: List[str]) -> List[str]:
         record_id = get_record_id_if_link_is_correct(link=link)
 
         if not record_id:
-            raise ValueError(fr'Ссылка - <{link.__repr__()}> не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n')
+            raise ValueError(fr'Ссылка - <{link.__repr__()}> ' 
+                             fr'не соответствует паттерну \'https://my.mts-link.ru/.+/(?P<record_id>[0-9]+)$\'!\n'
+                             )
 
         record_ids.append(record_id)
 
@@ -91,7 +93,8 @@ def choose_option_one_out_of_three_from_user() -> str:
                                                   "1. Выгрузить запись вебинара;\n"
                                                   "2. Запустить процесс слияние чанков;\n"
                                                   "3. Выгрузить несколько вебинаров, используя пакетную загрузку.\n"
-                                                  "> ")
+                                                  "> "
+                                                  )
                                      )
 
     return option_number.group()
@@ -176,7 +179,10 @@ def main() -> None:
             print(f'Exception has been raised: {error}\n'
                   f'{sys.exc_info()}')
 
-            logging.exception(msg=error, exc_info=True, stack_info=True)
+            logging.exception(msg=error,
+                              exc_info=True,
+                              stack_info=True
+                              )
             chime.error()
 
 
