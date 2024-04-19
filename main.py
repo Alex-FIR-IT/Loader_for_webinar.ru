@@ -25,7 +25,7 @@ def get_record_id_if_link_is_correct(*, link: str) -> str:
     """
     link = re.fullmatch(pattern=r'https://'
                                 r'(?:my.mts-link.ru|events.webinar.ru)'
-                                r'/.+new/(?P<record_id>[0-9]+).+$',
+                                r'/.+new/(?P<record_id>[0-9]+).*$',
                         string=link.strip(),
                         flags=re.MULTILINE
                         )
