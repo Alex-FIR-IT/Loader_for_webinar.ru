@@ -2,7 +2,7 @@ import datetime
 import json
 import os.path
 import re
-import sys
+import traceback
 from typing import Dict, List
 import chime
 from scripts.download import download_webinar
@@ -177,7 +177,7 @@ def main() -> None:
 
         except Exception as error:
             print(f'Exception has been raised: {error}\n'
-                  f'{sys.exc_info()}')
+                  f'{traceback.format_exc()}')
 
             logging.exception(msg=error,
                               exc_info=True,
