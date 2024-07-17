@@ -7,7 +7,7 @@ from typing import Dict, List
 import chime
 from scripts.download import download_webinar
 from scripts.files_merging import merge_files, merging_files_is_needed_from_user, main_merge_files
-from support.decorators import chime_when_is_done
+from utils.decorators import chime_when_is_done
 import logging
 
 

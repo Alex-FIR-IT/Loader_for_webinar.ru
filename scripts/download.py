@@ -3,8 +3,8 @@ import re
 from typing import List, Dict
 import requests
 import tqdm
-from support import kwargs_for_request
-from support.decorators import print_execution_time, chime_when_is_done
+from utils import kwargs_for_request
+from utils.decorators import print_execution_time, chime_when_is_done
 
 
 def mkdir_if_not_exists(*, filename: str) -> str:
