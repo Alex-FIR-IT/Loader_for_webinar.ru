@@ -35,3 +35,7 @@ class TestGetWebinarFilenameFromUser(unittest.TestCase):
         result_filename = get_webinar_filename_from_user()
 
         self.assertEqual(result_filename, f"{filename_with_ext}.mp4")
+
+
+if __name__ == '__main__':
+    unittest.main()
