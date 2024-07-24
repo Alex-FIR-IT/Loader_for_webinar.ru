@@ -1,7 +1,7 @@
 import os
 import re
 from typing import List
-from moviepy.editor import VideoFileClip, concatenate_videoclips
+from moviepy.editor import VideoFileClip, concatenate_videoclips, AudioFileClip, concatenate_audioclips
 from utils.decorators import print_execution_time, chime_when_is_done, retry_execution_if_exception_is_raised
 
 
@@ -83,20 +83,33 @@ def merge_files(*, chunks_filepaths: List, filepath: str, remove_mp3: bool):
     :param filepath: filepath for mp3 and mp4 files (directory + filename)
     :param remove_mp3: remove mp3 file, if True
     """
-    videos = [VideoFileClip(filename=chunks_filepath) for chunks_filepath in chunks_filepaths]
 
-    if len(videos) > 1:
-        final_video = concatenate_videoclips(clips=videos,
-                                             method='compose'
-                                             )
+    try:
+        videos = [VideoFileClip(filename=chunks_filepath) for chunks_filepath in chunks_filepaths]
 
-        final_video.write_videofile(filename=filepath,
-                                    remove_temp=remove_mp3,
-                                    temp_audiofile=f'{filepath[:-1]}3'
-                                    )
-        delete_chunks(chunks=chunks_filepaths)
-    else:
-        print('Найден всего 1 чанк! Слияние не требуется')
+        if len(videos) > 1:
+            final_video = concatenate_videoclips(clips=videos,
+                                                 method='compose'
+                                                 )
+
+            final_video.write_videofile(filename=filepath,
+                                        remove_temp=remove_mp3,
+                                        temp_audiofile=f'{filepath[:-1]}3'
+                                        )
+            delete_chunks(chunks=chunks_filepaths)
+        else:
+            print('Найден всего 1 чанк! Слияние не требуется')
+    except KeyError:
+        print("Невозможно объединить чанки в видео. Вместо этого будет произведен запуск слияния аудио.")
+
+        audios = [AudioFileClip(filename=chunks_filepath) for chunks_filepath in chunks_filepaths]
+
+        if len(audios) > 1:
+            final_video = concatenate_audioclips(clips=audios)
+
+            final_video.write_audiofile(filename=f'{filepath[:-1]}3')
+        else:
+            print('Найден всего 1 чанк! Слияние не требуется')
 
 
 @retry_execution_if_exception_is_raised(retries=5, delay=5)
