@@ -1,8 +1,10 @@
 import os
 import re
 from typing import List, Dict
+
 import requests
 import tqdm
+
 from utils import kwargs_for_request
 from utils.decorators import print_execution_time, chime_when_is_done
 
@@ -140,8 +142,11 @@ def download_webinar(*, record_id: str) -> Dict:
                                                     ]
 
     video_chunks_urls_length = len(video_chunks_urls)
+
+    video_chunks_urls_with_numeration_for_output_str = "\n".join(video_chunks_urls_with_numeration_for_output)
+
     print(f'Количество видео-роликов: {video_chunks_urls_length}: \n'
-          f'{"\n".join(video_chunks_urls_with_numeration_for_output)}'
+          f'{video_chunks_urls_with_numeration_for_output_str}'
           )
 
     print('Загрузка началась!')
